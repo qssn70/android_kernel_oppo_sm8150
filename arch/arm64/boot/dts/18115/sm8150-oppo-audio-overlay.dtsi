@@ -1,6 +1,45 @@
 /*this is for oppo project different hw version */
+#include "sm8150-audio-overlay.dtsi"
 &snd_9360 {
 	status = "disabled";
+};
+
+
+
+&wcd934x_cdc {
+	qcom,cdc-micbias1-mv = <1800>;
+	qcom,cdc-micbias2-mv = <2700>;
+	qcom,cdc-micbias3-mv = <1800>;
+	qcom,cdc-micbias4-mv = <1800>;
+};
+
+&qupv3_se4_i2c {
+	status = "ok";
+	max989xx@39 {
+		compatible = "maxim,max98927L";
+		reg = <0x39>;
+		mono_stereo_mode = <3>;
+		interleave_mode = <1>;
+		range_mohms = <10000 14000>;
+		maxim,98927-reset-gpio = <&tlmm 134 0x00>;
+		max989xx_vdd-supply = <&pm8150_s4>;
+		status = "okay";
+	};
+	max989xx@3a {
+		compatible = "maxim,max98927R";
+		reg = <0x3a>;
+		mono_stereo_mode = <3>;
+		interleave_mode = <1>;
+		range_mohms = <5000 8000>;
+		maxim,98927-reset-gpio = <&tlmm 37 0x00>;
+		max989xx_vdd-supply = <&pm8150_s4>;
+		status = "okay";
+	};
+	max20328: max20328@15 {
+		compatible = "max20328";
+		reg = <0x15>;
+		max20328,hs-det-gpio = <&tlmm 31 0x00>;
+	};
 };
 
 &snd_934x {
@@ -60,42 +99,6 @@
 	qcom,msm-mbhc-usbc-audio-supported = <1>;
 	oppo,usbc-switch = <2>;  /* 0: no usbc switch; 1: fsa4480; 2: max20328 */
 	max20328-i2c-handle = <&max20328>;
-};
-
-&wcd934x_cdc {
-	qcom,cdc-micbias1-mv = <1800>;
-	qcom,cdc-micbias2-mv = <2700>;
-	qcom,cdc-micbias3-mv = <1800>;
-	qcom,cdc-micbias4-mv = <1800>;
-};
-
-&qupv3_se4_i2c {
-	status = "ok";
-	max989xx@39 {
-		compatible = "maxim,max98927L";
-		reg = <0x39>;
-		mono_stereo_mode = <3>;
-		interleave_mode = <1>;
-		range_mohms = <10000 14000>;
-		maxim,98927-reset-gpio = <&tlmm 134 0x00>;
-		max989xx_vdd-supply = <&pm8150_s4>;
-		status = "okay";
-	};
-	max989xx@3a {
-		compatible = "maxim,max98927R";
-		reg = <0x3a>;
-		mono_stereo_mode = <3>;
-		interleave_mode = <1>;
-		range_mohms = <5000 8000>;
-		maxim,98927-reset-gpio = <&tlmm 37 0x00>;
-		max989xx_vdd-supply = <&pm8150_s4>;
-		status = "okay";
-	};
-	max20328: max20328@15 {
-		compatible = "max20328";
-		reg = <0x15>;
-		max20328,hs-det-gpio = <&tlmm 31 0x00>;
-	};
 };
 
 &tlmm {
